@@ -1,34 +1,41 @@
-# 🚀 CV Builder (Rust Edition)
+# CV Builder
 
-A reliable Rust tool for generating PDFs from Markdown CVs.
+A robust Rust-based utility for generating PDF resumes from Markdown files and LaTeX templates.
 
-Хватит терпеть боль от сломанных `.bat` скриптов, потерянных путей и молча падающего Pandoc! Эта утилита берет ваш текст в Markdown, LaTeX-шаблон и превращает их в шикарный PDF. Без хардкода, без боли — только удобные диалоговые окна и детальные логи.
+This project replaces brittle shell/batch scripts with a compiled, safe, and user-friendly executable. It manages the pipeline of converting a Markdown CV into a professionally typeset PDF using Pandoc and LuaLaTeX, complete with native GUI file selection and structured logging.
 
-## ✨ Фичи (Почему это круче скриптов)
-- 🕵️‍♂️ **Умная предполетная проверка**: Перед стартом проверяет наличие `pandoc` и `lualatex` в системе. Если их нет — подскажет, где скачать, а не упадет с кривой ошибкой.
-- 🪟 **Нативный UI**: Забудьте про вбивание путей руками в консоль. Программа сама откроет стандартные окна Windows для выбора `.md`, `.tex` и места сохранения готового `.pdf` (спасибо `rfd`).
-- 📝 **Профессиональное логирование**: Все этапы сборки и ошибки компиляции LaTeX аккуратно выводятся в консоль с помощью `tracing`.
-- 🛡️ **Бронебойность**: Элегантная работа с ошибками через `anyhow`. 
+## Key Features
 
-## 🛠 Что нужно для работы (Pre-flight)
-Эта программа — дирижер, но ей нужны музыканты. Убедитесь, что у вас установлены:
-1. [Pandoc](https://pandoc.org/installing.html)
-2. [MiKTeX](https://miktex.org/download) (Движок LaTeX. *Лайфхак: при установке выберите `Install missing packages on-the-fly = Yes`, чтобы он сам докачивал нужные шрифты*).
+* **Pre-flight Dependency Checking:** Automatically verifies the presence of `pandoc` and `lualatex` in the system environment before execution, preventing cryptic mid-compilation crashes.
+* **Native OS Dialogs:** Eliminates hardcoded paths and CLI arguments. Utilizes native file dialogs to select the input `.md` file, the `.tex` template, and the output destination.
+* **Structured Logging:** Implements comprehensive logging across all working stages to simplify debugging and track the compilation state.
+* **Robust Error Handling:** Safely captures and formats process execution errors, including surfacing `stdout` and `stderr` directly from the Pandoc/LaTeX engines.
 
-## 🚀 Как запустить
+## Prerequisites
 
-Скомпилируйте проект под свою ось:
+Before running the tool, ensure the following dependencies are installed and available in your system's `PATH`:
+
+1. [Pandoc](https://pandoc.org/installing.html) - The universal markup converter.
+2. [MiKTeX](https://miktex.org/download) or TeX Live - Specifically, the `lualatex` engine is required to process the template.
+   > **Note for MiKTeX users:** It is highly recommended to enable *Install missing packages on-the-fly* during installation to avoid missing font or package errors during PDF generation.
+
+## Build and Installation
+
+To compile the project from source, you need to have [Rust and Cargo](https://rustup.rs/) installed on your system.
+
+Clone the repository and build the optimized release version:
+
 ```bash
+git clone https://github.com/YOUR_GITHUB_USERNAME/cv-builder.git
+cd cv-builder
 cargo build --release
 ```
-Готовый реактивный бинарник появится в папке `target/release/cv_builder.exe`. 
-Кидайте его на рабочий стол, запускайте и собирайте резюме в 3 клика мышки!
 
-## 🏗 Стёк технологий
-- **Rust** 🦀
-- `rfd` (Rust File Dialog) — вызов нативных окон ОС без тяжелых GUI-фреймворков.
-- `tracing` & `tracing-subscriber` — структурированные логи.
-- `anyhow` — человеческое управление ошибками.
+The compiled binary will be located at `target/release/cv_builder.exe` (on Windows). This is a standalone executable that can be moved and executed from any directory.
 
----
-*Сделано, чтобы не страдать от рутины при обновлении резюме!* 😎
+## Technology Stack
+
+* **Rust** - Core language.
+* **[rfd](https://crates.io/crates/rfd)** - Cross-platform native file dialogs without the overhead of a full GUI framework.
+* **[tracing](https://crates.io/crates/tracing)** & **[tracing-subscriber](https://crates.io/crates/tracing-subscriber)** - Application-level structured diagnostic logging.
+* **[anyhow](https://crates.io/crates/anyhow)** - Idiomatic and flexible error handling.
